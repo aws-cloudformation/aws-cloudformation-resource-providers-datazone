@@ -1,0 +1,166 @@
+{
+  "typeName": "AWS::DataZone::EnvironmentBlueprintConfiguration",
+  "description": "Definition of AWS::DataZone::EnvironmentBlueprintConfiguration Resource Type",
+  "sourceUrl": "https://github.com/aws-cloudformation/aws-cloudformation-resource-providers-datazone",
+  "definitions": {
+    "Parameter": {
+      "type": "object",
+      "patternProperties": {
+        ".+": {
+          "type": "string"
+        }
+      },
+      "additionalProperties": false
+    },
+    "RegionalParameter": {
+      "type": "object",
+      "properties": {
+        "Region": {
+          "type": "string",
+          "pattern": "^[a-z]{2}-?(iso|gov)?-{1}[a-z]*-{1}[0-9]$"
+        },
+        "Parameters": {
+          "$ref": "#/definitions/Parameter"
+        }
+      },
+      "additionalProperties": false
+    }
+  },
+  "properties": {
+    "CreatedAt": {
+      "type": "string",
+      "format": "date-time"
+    },
+    "DomainId": {
+      "type": "string",
+      "pattern": "^dzd[-_][a-zA-Z0-9_-]{1,36}$"
+    },
+    "DomainIdentifier": {
+      "type": "string",
+      "pattern": "^dzd[-_][a-zA-Z0-9_-]{1,36}$"
+    },
+    "EnabledRegions": {
+      "type": "array",
+      "items": {
+        "type": "string",
+        "maxLength": 16,
+        "minLength": 4,
+        "pattern": "^[a-z]{2}-?(iso|gov)?-{1}[a-z]*-{1}[0-9]$"
+      },
+      "insertionOrder": false,
+      "minItems": 0
+    },
+    "EnvironmentBlueprintId": {
+      "type": "string",
+      "pattern": "^[a-zA-Z0-9_-]{1,36}$"
+    },
+    "EnvironmentBlueprintIdentifier": {
+      "type": "string",
+      "pattern": "^[a-zA-Z0-9_-]{1,36}$"
+    },
+    "Managed": {
+      "type": "boolean",
+      "default": true
+    },
+    "ManageAccessRoleArn": {
+      "type": "string",
+      "pattern": "^arn:aws[^:]*:iam::\\d{12}:(role|role/service-role)/[\\w+=,.@-]*$"
+    },
+    "ProvisioningRoleArn": {
+      "type": "string",
+      "pattern": "^arn:aws[^:]*:iam::\\d{12}:(role|role/service-role)/[\\w+=,.@-]*$"
+    },
+    "RegionalParameters": {
+      "type": "array",
+      "insertionOrder": false,
+      "uniqueItems": true,
+      "items": {
+        "$ref": "#/definitions/RegionalParameter"
+      }
+    },
+    "UpdatedAt": {
+      "type": "string",
+      "format": "date-time"
+    }
+  },
+  "readOnlyProperties": [
+    "/properties/CreatedAt",
+    "/properties/DomainId",
+    "/properties/EnvironmentBlueprintId",
+    "/properties/UpdatedAt"
+  ],
+  "createOnlyProperties": [
+    "/properties/DomainIdentifier",
+    "/properties/EnvironmentBlueprintIdentifier"
+  ],
+  "primaryIdentifier": [
+    "/properties/DomainId",
+    "/properties/EnvironmentBlueprintId"
+  ],
+  "additionalIdentifiers": [
+    [
+      "/properties/DomainIdentifier",
+      "/properties/EnvironmentBlueprintIdentifier"
+    ]
+  ],
+  "required": [
+    "DomainIdentifier",
+    "EnvironmentBlueprintIdentifier",
+    "EnabledRegions"
+  ],
+  "writeOnlyProperties": [
+    "/properties/DomainIdentifier",
+    "/properties/EnvironmentBlueprintIdentifier"
+  ],
+  "nonPublicProperties": [
+    "/properties/Managed"
+  ],
+  "tagging": {
+    "taggable": false
+  },
+  "handlers": {
+    "create": {
+      "permissions": [
+        "datazone:ListEnvironmentBlueprints",
+        "iam:PassRole",
+        "datazone:GetEnvironmentBlueprintConfiguration",
+        "datazone:PutEnvironmentBlueprintConfiguration"
+      ]
+    },
+    "read": {
+      "permissions": [
+        "datazone:GetEnvironmentBlueprintConfiguration"
+      ]
+    },
+    "update": {
+      "permissions": [
+        "datazone:DeleteEnvironmentBlueprintConfiguration",
+        "iam:PassRole",
+        "datazone:GetEnvironmentBlueprintConfiguration",
+        "datazone:PutEnvironmentBlueprintConfiguration"
+      ]
+    },
+    "delete": {
+      "permissions": [
+        "datazone:GetEnvironmentBlueprintConfiguration",
+        "datazone:DeleteEnvironmentBlueprintConfiguration"
+      ]
+    },
+    "list": {
+      "handlerSchema": {
+        "properties": {
+          "DomainIdentifier": {
+            "$ref": "resource-schema.json#/properties/DomainIdentifier"
+          }
+        },
+        "required": [
+          "DomainIdentifier"
+        ]
+      },
+      "permissions": [
+        "datazone:ListEnvironmentBlueprintConfigurations"
+      ]
+    }
+  },
+  "additionalProperties": false
+}
