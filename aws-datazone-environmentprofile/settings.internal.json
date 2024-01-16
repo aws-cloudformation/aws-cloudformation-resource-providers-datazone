@@ -1,0 +1,5 @@
+{
+  "FasPolicyPath": {
+    "aws": "/policies/AuthRuntime/authNPolicy/cloudformation/aws-datazone-environmentprofile.2023-12-15-10-16-21"
+  }
+}
